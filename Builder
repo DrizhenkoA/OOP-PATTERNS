@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+class Car {
+public:
+	int wheels;
+	string color;
+	string engine;
+	int seats;
+	bool gps;
+
+	void show() {
+		cout << "Wheels: " << wheels << endl;
+		cout << "Color: " << color << endl;
+		cout << "Engine: " << engine << endl;
+		cout << "Seats: " << seats << endl;
+		cout << "GPS: " << gps << endl;
+	}
+};
+
+class CarBuilder {
+private:
+	Car* result;
+public:
+	CarBuilder() {}
+
+	~CarBuilder() {
+		delete result;
+	}
+
+	CarBuilder& reset() {
+		this->result = new Car();
+		return *this;
+	}
+	CarBuilder& setWheels(int count) {
+		this->result->wheels = count;
+		return *this;
+	}
+	CarBuilder& setColor(string color) {
+		this->result->color = color;
+		return *this;
+	}
+	CarBuilder& setEngine(string engine) {
+		this->result->engine = engine;
+		return *this;
+	}
+	CarBuilder& setSeats(int seats) {
+		this->result->seats = seats;
+		return *this;
+	}
+	CarBuilder& setGPS(bool gps) {
+		this->result->gps = gps;
+		return *this;
+	}
+
+	Car* getResult() {
+		return this->result;
+	}
+};
+
+class Director {
+private:
+	CarBuilder builder;
+public:
+	Car* ConstructSportCar() {
+		builder.reset();
+		builder.setWheels(2);
+		builder.setColor("red");
+		builder.setEngine("282828");
+		builder.setSeats(500);
+		builder.setGPS(true);
+		builder.getResult();
+		return builder.getResult();
+	}
+
+	Car* ConstructAnotherCar() {
+		builder.reset();
+		builder.setWheels(4);
+		builder.setColor("blue");
+		builder.setEngine("11");
+		builder.setSeats(2);
+		builder.setGPS(true);
+		return builder.getResult();
+	}
+
+};
+
+int main() 
+{
+	Director d1;
+	d1.ConstructSportCar()->show();
+	cout << endl << endl;
+	d1.ConstructAnotherCar()->show();
+}
