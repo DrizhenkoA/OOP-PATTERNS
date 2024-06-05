@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+class ConfigManager {
+private:
+	static ConfigManager* configManager;
+	map<string, string> parameters;
+	
+	ConfigManager() {};
+
+public:
+	static ConfigManager* getInstance() {
+		if (configManager == nullptr) {
+			configManager = new ConfigManager();
+		}
+		return configManager;
+	}
+	void setParameter(string key,string value) {
+		parameters[key] = value;
+	}
+
+	string getParameter(string key) {
+		return parameters[key];
+	}
+
+};
+
+ConfigManager* ConfigManager::configManager = nullptr;
+
+
+
+int main() 
+{
+	ConfigManager* cm1 = ConfigManager::getInstance();
+	cm1->setParameter("db_url","localhost:8008");
+	cout << cm1->getParameter("db_url") << endl;
+
+	ConfigManager* cm2 = ConfigManager::getInstance();
+	cout << cm2->getParameter("db_url") << endl;
+
+
+
+
+}
