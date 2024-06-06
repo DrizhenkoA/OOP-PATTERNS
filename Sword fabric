@@ -1,0 +1,79 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+class Sword{							//меч
+public:
+	virtual void attack() = 0;
+	virtual ~Sword() = default;
+};
+
+class Katana : public Sword {							//катана
+public:
+	void attack() override {
+		cout << "Attack by katana" << endl;
+	}
+};
+
+class Broadsword : public Sword {							//меч2
+public:
+	void attack() override {
+		cout << "Attack by broadsword" << endl;
+	}
+};
+
+class Ulfbert : public Sword {							//ulfbert
+public:
+	void attack() override {
+		cout << "Attack by ulfbert" << endl;
+	}
+};
+
+class Blacksmith {									//кузнец
+public:
+	virtual Sword* createSword() = 0;
+	virtual ~Blacksmith() = default;
+
+}; 
+
+class JapaneseBlacksmith : public Blacksmith {									//японски кузнец
+	Sword* createSword() {
+		return new Katana;
+	}
+};
+
+class EuropeanBlacksmith : public Blacksmith{										//европейски кузнец
+	Sword* createSword() {
+		return new Broadsword;
+	}
+};
+
+class ScandinavianBlacksmith : public Blacksmith {										// Scandinavian кузнец
+	Sword* createSword() {
+		return new Ulfbert;
+	}
+};
+
+
+int main() 
+{
+	string country = "Scandinavia";
+
+	Blacksmith* bs = nullptr;
+	if (country == "Japan") {
+		bs = new JapaneseBlacksmith();
+	}
+	else if (country == "Europe") {
+		bs = new EuropeanBlacksmith();
+	}
+	else if (country == "Scandinavia") {
+		bs = new ScandinavianBlacksmith();
+	}
+	if (bs != nullptr) {
+		Sword* sm = bs->createSword();
+		sm->attack();
+	}
+
+}
