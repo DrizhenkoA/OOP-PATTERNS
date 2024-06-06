@@ -1,0 +1,140 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+class Burger {
+public:
+	bool upbun;
+	bool sauce;
+	bool pickle;
+	bool beacon;
+	bool letuce;
+	bool cheese;
+	bool beef;
+	bool downbun;
+
+	void show() {
+		cout << "Upbun: " << upbun << endl;
+		cout << "Sauce: " << sauce << endl;
+		cout << "Pickle: " << pickle << endl;
+		cout << "Beacon: " << beacon << endl;
+		cout << "Letuce: " << letuce << endl;
+		cout << "Cheese: " << cheese << endl;
+		cout << "Beef: " << beef << endl;
+		cout << "Downbun: " << downbun << endl;
+	}
+};
+
+class BurgerBuilder {
+private:
+	Burger* result;
+public:
+	BurgerBuilder() {}
+
+	~BurgerBuilder() {
+		delete result;
+	}
+
+	BurgerBuilder& reset() {
+		this->result = new Burger();
+		return *this;
+	}
+	BurgerBuilder& setUpbun(bool upbun) {
+		this->result->upbun = upbun;
+		return *this;
+	}
+	BurgerBuilder& setSauce(bool sauce) {
+		this->result->sauce = sauce;
+		return *this;
+	}
+	BurgerBuilder& setPickle(bool pickle) {
+		this->result->pickle = pickle;
+		return *this;
+	}
+	BurgerBuilder& setBeacon(bool beacon) {
+		this->result->beacon = beacon;
+		return *this;
+	}
+	BurgerBuilder& setLetuce(bool letuce) {
+		this->result->letuce = letuce;
+		return *this;
+	}
+	BurgerBuilder& setCheese(bool cheese) {
+		this->result->cheese = cheese;
+		return *this;
+	}
+	BurgerBuilder& setBeef(bool beef) {
+		this->result->beef = beef;
+		return *this;
+	}
+	BurgerBuilder& setDownbun(bool downbun) {
+		this->result->downbun = downbun;
+		return *this;
+	}
+	Burger* getResult() {
+		return this->result;
+	}
+};
+
+class Director {
+private:
+	BurgerBuilder cooker;
+public:
+	Burger* ConstructBurger() {
+		cooker.reset();
+		cooker.setUpbun(true);
+		cooker.setSauce(true);
+		cooker.setPickle(true);
+		cooker.setBeacon(true);
+		cooker.setLetuce(true);
+		cooker.setCheese(true);
+		cooker.setBeef(true);
+		cooker.setDownbun(true);
+		cooker.getResult();
+		return cooker.getResult();
+	}
+
+	Burger* ConstructVeganBurger() {
+		cooker.reset();
+		cooker.setUpbun(true);
+		cooker.setSauce(false);
+		cooker.setPickle(true);
+		cooker.setBeacon(false);
+		cooker.setLetuce(true);
+		cooker.setCheese(false);
+		cooker.setBeef(false);
+		cooker.setDownbun(true);
+		cooker.getResult();
+		return cooker.getResult();
+	}
+
+	Burger* ConstructCheeseburger() {
+		cooker.reset();
+		cooker.setUpbun(true);
+		cooker.setSauce(true);
+		cooker.setPickle(true);
+		cooker.setBeacon(false);
+		cooker.setLetuce(true);
+		cooker.setCheese(true);
+		cooker.setBeef(true);
+		cooker.setDownbun(true);
+		cooker.getResult();
+		return cooker.getResult();
+	}
+
+};
+
+int main()
+{
+	Director burg1;
+	cout << "Meat Burger" << endl;
+	burg1.ConstructBurger()->show();
+	cout << endl << endl;
+	cout << "Vegan Burger" << endl;
+	burg1.ConstructVeganBurger()->show();
+	cout << endl << endl;
+	cout << "Cheeseburger" << endl;
+	burg1.ConstructCheeseburger()->show();
+}
