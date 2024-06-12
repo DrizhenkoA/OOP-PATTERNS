@@ -1,0 +1,114 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
+using namespace std;
+ 
+class ServiceInterface {
+public:
+	virtual void operation() = 0;
+
+};
+
+class Service : public ServiceInterface {
+private:
+	string path;
+	string date;
+
+public:
+	string getDate() {
+		this->date = date;
+	}
+
+	string getPath() {
+		this->path = path;
+	}
+
+	void operation() {
+		cout << "operation complete" << endl;
+	}
+
+	string downloadByID(int id) {
+		ifstream in("text.txt");
+		string str;
+
+		if (in.is_open()) {
+			while (getline(in, str)) {
+				string word = str.substr(0, str.find_first_of('.'));
+				if (id == stoi(word)) {
+					return str;
+				}
+			}
+		}
+	}
+
+	vector <string> download() {
+		vector <string> video;
+		ifstream in("text.txt");
+		string txt;
+		if (in.is_open()) {
+			while (getline(in, txt)) {
+				video.push_back(txt);
+			}
+		return video;
+		}
+	}
+
+	void getData() {
+		ifstream in("text.txt");
+		string txt;
+		if (in.is_open()) {
+			getline(in, txt);
+		cout << txt << " - Current Date" << endl;
+		}
+	}
+
+};
+
+class Proxy : public ServiceInterface {
+private:
+	Service* realService;
+	bool checkAccess(int pass) { 
+		return (pass == 12345);
+	}
+public:
+	Proxy(Service* realService) : realService(realService){}
+
+	void operation() override {
+			cout << "Proxy handling request" << endl;
+			int pass;
+			cin >> pass;
+			if (checkAccess(pass)) {
+				realService->operation();
+		}
+	}
+
+};
+
+
+int main()
+{
+	Service* realService = new Service;
+
+	//Proxy proxy(realService);
+	//proxy.operation();
+
+
+	vector <string> vv = realService->download();
+	for (auto el : vv) {
+		cout << el << endl;
+	}
+	cout << "----------------------------------------" << endl;
+	vector <string> vv2 = realService->downloadByID(2);
+	for (auto el : vv2) {
+		cout << el << endl;
+	}
+	cout << "----------------------------------------" << endl;
+	realService->getData();
+	cout << "----------------------------------------" << endl;
+
+
+		
+
+}
