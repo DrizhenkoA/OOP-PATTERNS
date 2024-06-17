@@ -1,0 +1,199 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Device {
+public:
+    virtual bool isEnabled() = 0;
+    virtual void enable() = 0;
+    virtual void disable() = 0;
+    virtual int getVolume() = 0;
+    virtual void setVolume(int) = 0;
+    virtual int getChannel() = 0;
+    virtual void setChannel(int) = 0;
+};
+
+
+
+
+class Radio : public Device {
+private:
+    bool enabled = false;
+    int channel = 0;
+    int volume = 0;
+
+public:
+    bool isEnabled() {
+        if (enabled == true) {
+            cout << "Radio is enabled" << endl;
+        }
+        else {
+            cout << "Radio is disabled" << endl;
+        }
+        return this->enabled;
+    };
+    void enable() {
+        enabled = true;
+    }
+    void disable() {
+        enabled = false;
+    }
+    int getVolume() {
+        if (enabled == true) {
+            return volume;
+        }
+        else {
+            cout << "Radio is disabled" << endl;
+        }
+    }
+    void setVolume(int percent) {
+        if (enabled == true) {
+            if (percent >= 0 && percent <= 100) {
+                volume = percent;
+            }
+            else {
+                cout << "incorrect volume" << endl;
+            }
+        }
+        else {
+            cout << "Radio is disabled" << endl;
+        }
+    }
+    int getChannel() {
+        return channel;
+    }
+    void setChannel(int chanel) {
+        if (enabled == true) {
+            if (channel > 0) {
+                channel = chanel;
+            }
+            else {
+                cout << "incorrect channel" << endl;
+            }
+        }
+        else {
+            cout << "TV is disabled" << endl;
+        }
+    }
+};
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class TV : public Device {
+private:
+    bool enabled;
+    int channel;
+    int volume;
+
+public:
+    bool isEnabled() {
+        //if (enabled == true) {
+        //    cout << "TV is enabled" << endl;
+        //}
+        //else {
+        //    cout << "TV is disabled" << endl;
+        //}
+        return enabled;
+    };
+    void enable() {
+        enabled = true;
+    }
+    void disable() {
+        enabled = false;
+    }
+    int getVolume() {
+        if (enabled == true) {
+            return volume;
+        }
+        else {
+            cout << "TV is disabled" << endl;
+        }
+    }
+    void setVolume(int percent) {
+        if (enabled == true) {
+            if (percent >= 0 && percent <=100) {
+                volume = percent;
+            }
+            else {
+                cout << "incorrect volume" << endl;
+            }
+        }
+        else {
+            cout << "TV is disabled" << endl;
+        }
+    }
+    int getChannel() {
+        return channel;
+    }
+    void setChannel(int chanel) {
+        if (enabled == true) {
+            if (channel > 0) {
+                channel = chanel;
+            }
+            else {
+                cout << "incorrect channel" << endl;
+            }  
+        }
+        else {
+            cout << "TV is disabled" << endl;
+        }
+    }
+};
+
+class Remote {
+private:
+    Device* device;
+public:
+    Remote(Device* device) :device(device) {};
+    void togglePower() {
+        if (device->isEnabled() == true) {
+            device->disable();
+            cout << "Remote is disabled" << endl;
+        }
+        else {
+            device->enable();
+            cout << "Remote is enabled" << endl;
+        }
+    };
+    void volumeDown() {
+        if (device->getVolume() > 0) {
+            device->setVolume(device->getVolume() - 10);
+            cout << "Volume is down" << endl;
+        }
+        else {
+           
+        }
+    };
+    void volumeUp() {
+        if (device->getVolume() < 0) {
+            device->setVolume(device->getVolume() + 10);
+            cout << "Volume is up" << endl;
+        }
+    };
+    void channelDown() {
+        if (device->getChannel() > 0) {
+            device->setChannel(device->getChannel() - 1);
+            cout << "Channel down" << endl;
+        }
+    };
+    void channelUp() {
+        if (device->getChannel() < 0) {
+            device->setChannel(device->getChannel() + 1);
+            cout << "Channel is up" << endl;
+        }
+    };
+};
+
+int main()
+{
+
+    TV* tv1 = new TV();
+    Remote device(tv1);
+
+    //tv1->enable();
+    device.togglePower();
+    device.togglePower();
+
+
+}
