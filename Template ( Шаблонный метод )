@@ -1,0 +1,62 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <stack>
+#include <fstream>
+#include <map>
+
+using namespace std;
+
+class Coffee {
+public:
+    void prepareRecipe() {
+        boilWater();
+        brewCoffee();
+        pourInCup();
+        addCondiments();
+    }
+protected:
+    void boilWater() {
+        cout << "Boiling water " << endl;
+    }
+    void pourInCup() {
+        cout << "Pour into cup " << endl;
+    }
+    virtual void brewCoffee() = 0;
+    virtual void addCondiments() = 0;
+};
+
+class BlackCoffee : public Coffee {
+protected:
+    void brewCoffee() override {
+        cout << "Dripping coffee through filter" << endl;
+    }
+
+    void addCondiments() override {
+        cout << "Nothing condiments added " << endl;
+    }
+};
+
+class Latte : public Coffee {
+protected:
+    void brewCoffee() override {
+        cout << "Making espresso " << endl;
+    }
+
+    void addCondiments() override {
+        cout << "Adding steamed milk " << endl;
+    }
+};
+
+
+
+
+int main()
+{
+    Coffee* blackCoffee = new BlackCoffee();
+    Coffee* latteCoffee = new Latte();
+
+    cout << "Making a latte" << endl;
+    latteCoffee->prepareRecipe();
+}
